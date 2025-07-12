@@ -1,17 +1,21 @@
-import {Platform, SafeAreaView, StyleSheet, StatusBar, ActivityIndicator, View} from 'react-native';
+import {Platform, StyleSheet, StatusBar, ActivityIndicator, View} from 'react-native';
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {StatusBar as ExpoStatusBar} from "expo-status-bar";
 import {ThemeProvider} from "styled-components/native";
 import {theme} from "./src/themes/theme";
 import {useFonts as useMontserrat} from '@expo-google-fonts/montserrat/useFonts';
 import {Montserrat_400Regular} from '@expo-google-fonts/montserrat/400Regular';
-import {RestaurantProvider} from "./src/context/restaurant";
-import {LocationProvider} from "./src/context/location";
-import AppNavigation from "./src/infastructure/navigation/AppNavigation";
-import {FavouritesProvider} from "./src/context/favourites";
+
+import {AuthenticationProvider} from "./src/context/authtication";
 
 
-// TODO Navigation Stacks
+
+import "./src/Services/firebase/firebase"
+
+import RootNavigation from "./src/infastructure/navigation/RootNavigation";
+
+
+console.log("PROCESS KEY ",process.env.EXPO_PUBLIC_API_KEY)
 
 export default function App() {
 
@@ -32,16 +36,12 @@ export default function App() {
         <>
             {Platform.OS === 'ios'}
             <SafeAreaProvider style={styles.container}>
-                <FavouritesProvider>
-                    <LocationProvider>
-                        <RestaurantProvider>
-                            <ThemeProvider theme={theme}>
-                                <ExpoStatusBar style={"auto"}/>
-                                <AppNavigation/>
-                            </ThemeProvider>
-                        </RestaurantProvider>
-                    </LocationProvider>
-                </FavouritesProvider>
+                <AuthenticationProvider>
+                                <ThemeProvider theme={theme}>
+                                    <ExpoStatusBar style={"auto"}/>
+                                    <RootNavigation/>
+                                </ThemeProvider>
+                </AuthenticationProvider>
             </SafeAreaProvider>
         </>
 

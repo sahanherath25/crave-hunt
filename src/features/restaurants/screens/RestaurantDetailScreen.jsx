@@ -17,7 +17,7 @@ function RestaurantDetailScreen({route}) {
 
     const {name, vicinity: address, placeId} = restaurant.item
 
-    console.log("ROUTE DATA ", restaurant);
+    // console.log("ROUTE DATA ", restaurant);
 
     return (
 

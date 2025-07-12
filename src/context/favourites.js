@@ -1,28 +1,37 @@
-import {createContext, useCallback, useEffect, useState} from "react";
+import {createContext, useCallback, useContext, useEffect, useState} from "react";
 import restaurants from "../data/restaurantsData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {AuthenticationContext} from "./authtication";
 
 
 const FavouriteContext = createContext();
 
 const FavouritesProvider = ({children}) => {
 
+    const {user}=useContext(AuthenticationContext)
+
     const [favourites, setFavourites] = useState([])
 
+    console.log("USER IN FAC CONTEXT IS  ",user)
 
-    const saveFavourites = async (value) => {
+
+    const saveFavourites =async  (value,uid) => {
         try {
+            console.log("✅ Saving Favourites for UID:", uid);
             const jsonValue = JSON.stringify(value)
-            await AsyncStorage.setItem("@favorites", jsonValue)
+            await AsyncStorage.setItem(`@favorites-${uid}`, jsonValue)
 
         } catch (e) {
             console.log("Error Saving Value ", e)
         }
     }
 
-    const loadFavourites = async (value) => {
+    const loadFavourites = async (uid) => {
+
+        console.log("LOADED UID IS ",uid)
+
         try {
-            const valueStored = await AsyncStorage.getItem("@favorites")
+            const valueStored = await AsyncStorage.getItem(`@favorites-${uid}`)
             if(valueStored!==null){
                 setFavourites(JSON.parse(valueStored))
             }
@@ -35,6 +44,8 @@ const FavouritesProvider = ({children}) => {
 
 
     const addToFavourites = (restaurant) => {
+
+        console.log("ADDING FAV REESTRANT NEW")
 
         setFavourites((prevState) => {
             return [...prevState, restaurant]
@@ -55,14 +66,23 @@ const FavouritesProvider = ({children}) => {
 
     // TODO Load Favourite Items on Initial Load
     useEffect(() => {
-        loadFavourites()
-    }, []);
+        if(user){
+            console.log("LOADING THE USER EXUSITN DFAV",user)
+            loadFavourites(user?.uid)
+        }
+
+    }, [user]);
 
 
     // TODO Save In Storage each time adding favourite
     useEffect(() => {
-        saveFavourites(favourites)
-    }, [favourites]);
+
+        if(user){
+            console.log("SAVING INTO FAV")
+              saveFavourites(favourites,user?.uid)
+        }
+
+    }, [favourites,user]);
 
 
     return (

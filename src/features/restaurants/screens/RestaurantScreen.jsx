@@ -57,7 +57,7 @@ function RestaurantScreen({navigation}) {
     }
 
     console.log("TOttle Status",isToggle)
-    // console.log("fav",favourites)
+    console.log("fav",favourites)
 
     return (
         <View style={styles.container}>

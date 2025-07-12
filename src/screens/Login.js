@@ -8,7 +8,7 @@ import {RestaurantContext} from "../context/restaurant";
 
      const state=useContext(RestaurantContext);
 
-     console.log(state);
+     // console.log(state);
 
     return (
 
