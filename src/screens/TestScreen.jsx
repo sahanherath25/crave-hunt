@@ -9,6 +9,7 @@ import RestaurantsNavigation from "../infastructure/navigation/RestaurantsNaviga
 import {FavouritesProvider} from "../context/favourites";
 import {LocationProvider} from "../context/location";
 import {RestaurantProvider} from "../context/restaurant";
+import SettingsNavigation from "../infastructure/navigation/SettingsNavigation";
 
 
 const Tab = createBottomTabNavigator()
@@ -54,7 +55,7 @@ function MiniTabs({}) {
                             title: "Map Screen",
                             headerShown: false
                         }}/>
-                        <Tab.Screen name={"settings"} component={SettingsScreen} options={{
+                        <Tab.Screen name={"settings"} component={SettingsNavigation} options={{
                             title: "Settings Screen",
                         }}/>
                     </Tab.Navigator>

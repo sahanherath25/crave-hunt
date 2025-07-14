@@ -68,6 +68,14 @@ export const Title=styled.Text`
     )
 }
 
+export const AnimationContainer=styled.View`
+    width: 100%;
+    position: absolute;
+    height: 40%;
+    top: 30px;
+
+`
+
 export default AccountBackground;
 
 

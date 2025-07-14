@@ -8,15 +8,13 @@ import {styled} from "styled-components/native";
 import {useNavigation} from "@react-navigation/native";
 import {FavouriteContext} from "../../../context/favourites";
 import FavouritesBar from "../../../components/FavouritesBar";
+import {FadeInView} from "../../../components/animations/FadeAnimation";
 
 const SearchContainer = styled.View``
 
 const RestaurantListContainer = styled(List.Section)`
     color: #BF4F74;
     flex: 1;
-    //border-width: 1px;
-    //border-color: #ed1616;
-    //border-style: solid;
 `
 
 const ListSubTitle = styled(List.Subheader)`
@@ -41,7 +39,7 @@ function RestaurantScreen({navigation}) {
 
     const {restaurants, isLoading} = useContext(RestaurantContext)
 
-    const{favourites}=useContext(FavouriteContext)
+    const {favourites} = useContext(FavouriteContext)
     const [isToggle, setIsToggle] = useState(false)
 
     // console.log("Fav =>",favourites)
@@ -56,22 +54,22 @@ function RestaurantScreen({navigation}) {
         )
     }
 
-    console.log("TOttle Status",isToggle)
-    console.log("fav",favourites)
+    console.log("TOttle Status", isToggle)
+    console.log("fav", favourites)
 
     return (
-        <View style={styles.container}>
 
-            {/*<Button title={"To Login"} onPress={()=>navigation.navigate("login")}/>*/}
+        <View style={styles.container}>
 
             <Search
                 isFavouritesToggled={isToggle}
-                onFavouriteToggle={()=>setIsToggle(!isToggle)}
+                onFavouriteToggle={() => setIsToggle(!isToggle)}
             />
 
             {isToggle && <FavouritesBar favourites={favourites}/>}
 
             <RestaurantListContainer>
+
 
                 {/*<ListSubTitle>My Restuarant List</ListSubTitle>*/}
 
@@ -81,8 +79,10 @@ function RestaurantScreen({navigation}) {
                         return (
                             <CardWrapper>
                                 <Pressable android_ripple={{color: 'rgba(220,41,41,0.6)'}}
-                                           onPress={() => navigation.navigate("RestaurantDetail",{item})}>
-                                    <RestaurantInfo restaurant={item}/>
+                                           onPress={() => navigation.navigate("RestaurantDetail", {item})}>
+                                    <FadeInView style={styles.container}>
+                                        <RestaurantInfo restaurant={item}/>
+                                    </FadeInView>
                                 </Pressable>
                             </CardWrapper>
                         )
